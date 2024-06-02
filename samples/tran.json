@@ -1,0 +1,110 @@
+[
+  {
+    "type": "PURCHASE",
+    "paymentType": null,
+    "status": "POSTED",
+    "description": "AMAZON MARKETPLACE SEATTLE WA",
+    "createdDate": "2024-05-07T12:00:00-05:00",
+    "postedDate": "2024-05-07T12:00:00-05:00",
+    "statementDate": null,
+    "amount": "12.02",
+    "currencyCode": "840",
+    "identifiers": [
+      {
+        "id": "123478997",
+        "idType": "AUTHORIZATION_ID"
+      },
+      {
+        "id": null,
+        "idType": "PAYMENT_INSTRUMENT_ID"
+      },
+      {
+        "id": "P934200GHEHMB0BKT12123409812340981203498102938448X6WFBOK240507253",
+        "idType": "ID"
+      },
+      {
+        "id": "P123445678990",
+        "idType": "REFERENCE_NUMBER"
+      },
+      {
+        "id": "P12345678903456789",
+        "idType": "EXPANDED_REFERENCE_NUMBER"
+      }
+    ],
+    "transactionInfo": {
+      "cardEntryMethod": "81",
+      "promoCode": "        ",
+      "skuReferenceNumber": "129402063628196",
+      "skuReferenceDetails": [
+        "Skincare Beauty Kit | Korean B"
+      ],
+      "transactionCode": "253",
+      "transactionId": "129401234628196",
+      "recurringTransaction": false,
+      "merchant": {
+        "categoryCode": "05713",
+        "description": "AMAZON MARKETPLACE",
+        "name": null,
+        "city": null,
+        "state": null,
+        "zip": null,
+        "addressLine1": null,
+        "addressLine2": null
+      }
+    },
+    "paymentInfo": null
+  },
+  {
+    "type": "ADJUSTMENT",
+    "paymentType": null,
+    "status": "POSTED",
+    "description": "YOUR STORE CARD STATEMENT CREDIT",
+    "createdDate": null,
+    "postedDate": "2024-05-02T12:00:00-05:00",
+    "statementDate": "2024-05-02",
+    "amount": "-36.67",
+    "currencyCode": "840",
+    "identifiers": [
+      {
+        "id": "000000000000000",
+        "idType": "AUTHORIZATION_ID"
+      },
+      {
+        "id": null,
+        "idType": "PAYMENT_INSTRUMENT_ID"
+      },
+      {
+        "id": "00000000000000036673YAHS1234X6WFBOK992",
+        "idType": "ID"
+      },
+      {
+        "id": "                 ",
+        "idType": "REFERENCE_NUMBER"
+      },
+      {
+        "id": "                       ",
+        "idType": "EXPANDED_REFERENCE_NUMBER"
+      }
+    ],
+    "transactionInfo": {
+      "cardEntryMethod": "  ",
+      "promoCode": "        ",
+      "skuReferenceNumber": "000000000000000",
+      "skuReferenceDetails": null,
+      "transactionCode": "992",
+      "transactionId": "000000000000000",
+      "recurringTransaction": false,
+      "merchant": {
+        "categoryCode": "00000",
+        "description": "YOUR STORE CARD STATEMENT",
+        "name": null,
+        "city": null,
+        "state": null,
+        "zip": null,
+        "addressLine1": null,
+        "addressLine2": null
+      }
+    },
+    "paymentInfo": null
+  }
+]
