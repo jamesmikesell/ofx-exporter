@@ -18,7 +18,7 @@ export class SynchronyParser {
     config.startDate = new Date();
     config.endDate = new Date();
     config.accountNumber = accountInfo.accountInfo.accountLast4;
-    config.balance = +accountInfo.credit.currentBalance;
+    config.balance = -accountInfo.credit.currentBalance;
     config.startDate = dates[0];
     config.endDate = dates[1];
     config.transactions = this.convertTransactionsToDtos(transactions);
