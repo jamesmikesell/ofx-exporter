@@ -23,6 +23,11 @@ export class OfxGenerator {
 
     fileText = fileText.replace(/\$\{actId\}/g, config.accountNumber);
 
+    fileText = fileText.replace(/&#x27;/g, "'");
+    fileText = fileText.replace(/&apos;/g, "'");
+    fileText = fileText.replace(/&amp;/g, "&");
+    fileText = fileText.replace(/&quot;/g, '"');
+    
     return fileText;
   }
 

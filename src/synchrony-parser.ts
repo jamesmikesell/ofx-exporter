@@ -49,7 +49,7 @@ export class SynchronyParser {
       let tran = new OfxTransactionCreationDto();
       tran.amount = -single.amount;
       tran.datePosted = new Date(single.postedDate);
-      tran.description = single.transactionInfo.skuReferenceDetails?.join(";") || single.description;
+      tran.description = "Amazon - " + (single.transactionInfo.skuReferenceDetails?.join(";") || single.description);
       tran.id = single.identifiers.filter(id => id.idType === "ID")[0].id
 
       return tran;

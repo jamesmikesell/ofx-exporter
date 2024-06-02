@@ -15,7 +15,7 @@ let mockTransactions: Transaction[] = [
       idType: "ID"
     }],
     transactionInfo: {
-      skuReferenceDetails: ["some item"],
+      skuReferenceDetails: ["BALEAF Men's UV SPF Hoodie & \"cool\""],
       transactionId: "123412341",
     },
   },
