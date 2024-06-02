@@ -11,19 +11,23 @@ export class ObjectFinder {
    * returns a value or object that can be used to uniquely identify a found object so that duplicates aren't returned
    * @param log 
    * if debug logging should be shown
+   * @param trackAncestors
+   * if a list of all ancestors should be returned along with found items... enabling this has a noticeable performance impact
    * @returns 
    */
   static findObj<T>(searchRoot: any
     , typeCheck: (object: any) => boolean
     , idFetcher: (object: T) => any
-    , log = false): ObjectAndParents<T>[] {
+    , log = false
+    , trackAncestors = false,
+  ): ObjectAndParents<T>[] {
 
     let searched = new Set<any>();
     let toSearch = new Map<any, any[]>();
     let found = new Map<string, ObjectAndParents<T>>();
     searched.add(found);
 
-    toSearch.set(searchRoot, []);
+    toSearch.set(searchRoot, trackAncestors ? [] : undefined);
 
     let depth = 0
     let lastLog = Date.now() - 1001;
@@ -59,8 +63,11 @@ export class ObjectFinder {
       } else if (typeof obj == "object" && !searched.has(obj)) {
         for (let i in obj) {
           try {
-            let newParents = [...parents]
-            newParents.unshift(obj);
+            let newParents: any[];
+            if (trackAncestors) {
+              newParents = [...parents]
+              newParents.unshift(obj);
+            }
             toSearch.set((obj as any)[i], newParents)
           } catch (error) {
             if (log)
