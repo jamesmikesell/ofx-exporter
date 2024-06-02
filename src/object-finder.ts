@@ -41,7 +41,7 @@ export class ObjectFinder {
 
       let isType = false;
       try {
-        isType = typeCheck(obj) //&& Object.prototype.toString.call(parent) === '[object Array]';
+        isType = typeCheck(obj)
       } catch (error) {
         if (log)
           console.warn("Checking object returned the following error, ignoring and moving on", error);
