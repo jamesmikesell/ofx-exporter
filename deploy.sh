@@ -11,6 +11,8 @@ if [ -z "$(git status --porcelain)" ]; then
   npm run build
   mv build docs
 
+  cp bookmarklet.html docs
+
   git add -A
   git commit -m "build(deploy): deploying "$(git rev-parse --short HEAD)
   git push --force
