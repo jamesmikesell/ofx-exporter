@@ -1,6 +1,6 @@
 node_modules/
-statement.ofx
-build/main-bundle.js
+synchrony-amazon-ofx/statement.ofx
+synchrony-amazon-ofx/build/main-bundle.js
 pa529ofx/build/main-bundle.js
 pa529ofx/pa529.ofx
 pa529ofx/build/index.html

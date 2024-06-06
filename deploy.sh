@@ -6,12 +6,17 @@ if [ -z "$(git status --porcelain)" ]; then
   git checkout deploy
 
   rm -rf docs
+  mkdir docs
+
+  cd synchrony-amazon-ofx
   rm -rf build
   echo "export class AppVersion { static readonly VERSION = \""$(git rev-parse --short HEAD)"\"; }">src/app-version.ts
   npm run build
-  mv build docs
+  cp -r build/* ../docs/
 
-  cp bookmarklet.html docs
+  cp bookmarklet.html ../docs
+  
+  cd ..
   
   cd pa529ofx
   echo "export class AppVersion { static readonly VERSION = \""$(git rev-parse --short HEAD)"\"; }">src/app-version.ts
