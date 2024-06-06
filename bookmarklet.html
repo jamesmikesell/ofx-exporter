@@ -1,18 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synchrony Amazon Store Card OFX Downloader</title>
+  <style>
+    .centered-div {
+      max-width: 800px;
+      /* width: calc(100% - 40px); */
+      margin: 4px;
+      background-color: #f7f4f4;
+      box-sizing: border-box;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <div class="centered-div">
+      <h1>Synchrony Amazon Store Card OFX Downloader</h1>
 
-    <span> Simply drag this link 
-    <a class="bookmarklet" 
-        href="javascript:(function(){var el=document.createElement('script');el.src='https://jamesmikesell.github.io/ofx-exporter/main-bundle.js?bust='+new Date().getTime();document.body.appendChild(el);})();">
-        OFX</a>
-        to your bookmark bar.
-    </span>
+      <p>
+        First, read the safety warnings and usage instructions <a
+          href="https://github.com/jamesmikesell/ofx-exporter">here</a>.
+      </p>
+
+      <p>
+        To install the bookmarklet, simply drag this link
+        <a class="bookmarklet"
+          href="javascript:(function(){var el=document.createElement('script');el.src='https://jamesmikesell.github.io/ofx-exporter/main-bundle.js?bust='+new Date().getTime();document.body.appendChild(el);})();">
+          OFX</a>
+        to your bookmark bar. Then, when on the Synchrony website viewing an Amazon store card credit transactions,
+        click the bookmarklet in your bookmarks bar.
+      </p>
+    </div>
+  </div>
 </body>
 
 </html>
