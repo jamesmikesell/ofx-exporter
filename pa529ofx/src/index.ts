@@ -1,6 +1,10 @@
 import { Pa529CsvTransformer } from "./pa-529-csv-transformer";
 import { OfxSecurityGenerator } from "./ofx-security-stocks";
 import FileSaver from "file-saver";
+import { AppVersion } from "./app-version";
+
+
+console.log("App version: " + AppVersion.VERSION)
 
 
 export class Pa529CsvToOfxConverter {
