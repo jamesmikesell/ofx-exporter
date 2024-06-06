@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
+
 
 module.exports = (env) => {
   return {
@@ -20,6 +22,11 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         template: "../index.html",
         minify: true
+      }),
+      new CopyPlugin({
+        patterns: [
+          { from: "../favicons", to: "favicons" },
+        ],
       }),
     ],
     module: {
