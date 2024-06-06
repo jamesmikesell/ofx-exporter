@@ -2,9 +2,10 @@ const path = require('path');
 
 module.exports = {
   mode: "development",
+  context: path.resolve(__dirname, 'src'),
   // devtool: "inline-source-map",
   entry: {
-    main: "./src/index.ts",
+    main: "./index.ts",
   },
   output: {
     path: path.resolve(__dirname, './build'),
@@ -15,7 +16,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { 
+      {
         test: /\.tsx?$/,
         loader: "ts-loader"
       }
