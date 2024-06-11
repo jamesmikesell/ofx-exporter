@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 
 
-export class VanguardFormatter {
+class VanguardFormatter {
 
   /** this takes an OFX from vanguard and adds missing </..> tags
    * so that the saved format is ~valid~ xml... or at least
    * valid enough to format
    */
-  formatVanguard(): void {
+  static formatVanguard(): void {
     let ofx = fs.readFileSync("vanguard.ofx", 'utf8');
     ofx = this.removeBeforeFirstAngleBracket(ofx);
     ofx = ofx.replace(/</g, "\n<")
@@ -23,7 +23,7 @@ export class VanguardFormatter {
     fs.writeFileSync("vanguard-formatted.xml", joined);
   }
 
-  private removeBeforeFirstAngleBracket(input: string): string {
+  private static removeBeforeFirstAngleBracket(input: string): string {
     const index = input.indexOf('<');
     if (index === -1) {
       // If there is no "<" in the string, return the original string
@@ -34,7 +34,7 @@ export class VanguardFormatter {
   }
 
 
-  private appendClosingTagIfNeeded(text: string): string {
+  private static appendClosingTagIfNeeded(text: string): string {
     // Check if the last character is '>'
     if (text.charAt(text.length - 1) !== '>') {
       // Find the last opening tag
@@ -48,3 +48,6 @@ export class VanguardFormatter {
     return text;
   }
 }
+
+
+VanguardFormatter.formatVanguard();

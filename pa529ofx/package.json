@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch-path src src/index.test.ts",
+    "vanguard": "tsx src/vanguard.test.ts",
     "start": "webpack serve --live-reload --env dev",
     "webpack:watch": "webpack -w",
     "build": "webpack"
