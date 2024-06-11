@@ -7,7 +7,7 @@ import { OfxSecurityGenerator } from "./ofx-security-stocks";
 class TestCsvToOfxConverter {
 
   static convert(): void {
-    let config = Pa529CsvTransformer.convertCsvToOfxCreationDto(fakeCsv);
+    let config = Pa529CsvTransformer.convertCsvToOfxCreationDto(fakeCsv, true);
     let ofx = OfxSecurityGenerator.generateOfx(config);
     fs.writeFileSync("pa529.ofx", ofx);
   }

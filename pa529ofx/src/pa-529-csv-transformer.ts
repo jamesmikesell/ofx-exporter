@@ -5,7 +5,16 @@ import { OfxSecurityCreationDto, SecurityPriceDto, SecurityTransactionCreationDt
 
 export class Pa529CsvTransformer {
 
-  static convertCsvToOfxCreationDto(csvRaw: string): OfxSecurityCreationDto {
+  /**
+   * 
+   * @param csvRaw 
+   * @param createFake 
+   * for each holding, create an extra buy and offsetting sale at the current 
+   * market prices.  this allows some personal finances software programs to update
+   * their current prices for securities which aren't publicly listed.
+   * @returns 
+   */
+  static convertCsvToOfxCreationDto(csvRaw: string, createFake: boolean): OfxSecurityCreationDto {
     let splits = csvRaw.replace(/\n{3,}/g, "\n\n").split("\n\n");
     let holdingsSectionOfCsv = splits[0];
     let transactionsSectionOfCsv = splits[1];
@@ -17,19 +26,16 @@ export class Pa529CsvTransformer {
     let dtoTransactions: SecurityTransactionCreationDto[] = [];
     transactions.forEach(singleTran => {
       accountNumbers.add(singleTran.accountNumber);
-
-      let dto: SecurityTransactionCreationDto = {
-        tradeDate: singleTran.tradeDate,
-        transactionId: `${dayjs(singleTran.tradeDate).format("YYYYMMDD")}${singleTran.investmentName}`.replace(/ /g, ""),
-        memo: `${singleTran.transactionType} - ${singleTran.investmentName}`,
-        securityId: this.getSecurityIdFromTran(singleTran),
-        dollarTotal: -singleTran.grossAmount,
-        pricePerShare: singleTran.sharePrice,
-        shares: singleTran.shares,
-      }
-
-      dtoTransactions.push(dto);
+      dtoTransactions.push(this.createTransactions(singleTran));
     })
+
+
+    if (createFake) {
+      holdings.forEach(singleHolding => {
+        dtoTransactions.push(this.createFakeTrade(singleHolding, true));
+        dtoTransactions.push(this.createFakeTrade(singleHolding, false));
+      })
+    }
 
 
     let securityInfo: SecurityPriceDto[] = holdings.map(singleHolding => {
@@ -65,12 +71,46 @@ export class Pa529CsvTransformer {
   }
 
 
+
+  private static createTransactions(singleTran: Pa529Transaction): SecurityTransactionCreationDto {
+    let dto: SecurityTransactionCreationDto = {
+      tradeDate: singleTran.tradeDate,
+      transactionId: `${dayjs(singleTran.tradeDate).format("YYYYMMDD")}${singleTran.investmentName}`.replace(/ /g, ""),
+      memo: `${singleTran.transactionType} - ${singleTran.investmentName}`,
+      securityId: this.getSecurityIdFromTran(singleTran),
+      dollarTotal: -singleTran.grossAmount,
+      pricePerShare: singleTran.sharePrice,
+      shares: singleTran.shares,
+    }
+
+    return dto;
+  }
+
+
+  private static createFakeTrade(holding: Pa529Holding, buy: boolean): SecurityTransactionCreationDto {
+    let multiplier = buy ? 1 : -1;
+    let tradeType = buy ? "buy" : "sell";
+    let tran: SecurityTransactionCreationDto = {
+      tradeDate: new Date(),
+      transactionId: `fake_trade_${tradeType}_${dayjs(new Date).format("YYYYMMDD")}${holding.fundName}`.replace(/ /g, ""),
+      memo: `Fake ${tradeType} transaction ${holding.fundName} current price ${holding.price}`,
+      securityId: this.getSecurityIdFromHolding(holding),
+      dollarTotal: -1 * holding.price * multiplier,
+      pricePerShare: holding.price,
+      shares: 1 * multiplier,
+    }
+
+    return tran;
+  }
+
+
+
   private static getSecurityIdFromTran(singleTran: Pa529Transaction): string {
     return "PA529 " + singleTran.investmentName;
   }
 
 
-  private static getSecurityIdFromHolding(singleHolding: Pa529Holdings): string {
+  private static getSecurityIdFromHolding(singleHolding: Pa529Holding): string {
     return "PA529 " + singleHolding.fundName;
   }
 
@@ -98,7 +138,7 @@ export class Pa529CsvTransformer {
   }
 
 
-  private static getCsvHoldings(holdingsSectionOfCsv: string): Pa529Holdings[] {
+  private static getCsvHoldings(holdingsSectionOfCsv: string): Pa529Holding[] {
     let holdingsAndHeaders: string[][] = parse(holdingsSectionOfCsv);
     this.checkHoldingColumnNames(holdingsAndHeaders[0])
     let holdingRows = holdingsAndHeaders.slice(1) // remove first row which is just headers
@@ -106,9 +146,9 @@ export class Pa529CsvTransformer {
   }
 
 
-  private static convertCsvRowsToHoldings(rows: string[][]): Pa529Holdings[] {
+  private static convertCsvRowsToHoldings(rows: string[][]): Pa529Holding[] {
     return rows.map(singleRow => {
-      let holdings: Pa529Holdings = {
+      let holdings: Pa529Holding = {
         accountNumber: singleRow[Pa529HoldingColumns.FUND_ACCOUNT_NUMBER],
         fundName: singleRow[Pa529HoldingColumns.FUND_NAME],
         price: this.convertDollarStringToNumber(singleRow[Pa529HoldingColumns.PRICE]),
@@ -216,7 +256,7 @@ enum Pa529HoldingColumns {
 }
 
 
-interface Pa529Holdings {
+interface Pa529Holding {
   accountNumber: string;
   fundName: string;
   price: number;

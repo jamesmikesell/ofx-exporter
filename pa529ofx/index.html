@@ -10,6 +10,7 @@
   <style>
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -29,6 +30,18 @@
       font-size: 16px;
       color: #333;
       background-color: #f9f9f9;
+      margin-bottom: 20px;
+    }
+
+    #checkbox-container {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #333;
+    }
+
+    #fake-transactions {
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -42,6 +55,10 @@
     CSV file here
   </div>
 
+  <div id="checkbox-container">
+    <input type="checkbox" id="fake-transactions">
+    <label for="fake-transactions">Create one fake transaction per holding at current price</label>
+  </div>
 </body>
 
 </html>

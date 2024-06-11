@@ -9,10 +9,15 @@ console.log("App version: " + AppVersion.VERSION)
 
 export class Pa529CsvToOfxConverter {
   static convertCsvToOfx(csv: string): void {
-    let config = Pa529CsvTransformer.convertCsvToOfxCreationDto(csv);
+    let createFake = this.createFakeTransactions();
+    let config = Pa529CsvTransformer.convertCsvToOfxCreationDto(csv, createFake);
     let ofx = OfxSecurityGenerator.generateOfx(config);
     var blob = new Blob([ofx], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "statement.ofx");
+  }
+
+  private static createFakeTransactions(): boolean {
+    return (document.getElementById('fake-transactions') as HTMLInputElement).checked;
   }
 }
 
