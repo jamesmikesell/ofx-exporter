@@ -1,12 +1,22 @@
 import FileSaver from "file-saver";
 import { SynchronyParser } from "./synchrony-parser";
 import { AppVersion } from "./app-version";
+import { LoadingSpinner } from "./loading-spinner";
 
 class Main {
-  run(): void {
+  async run(): Promise<void> {
     console.log("App version: " + AppVersion.VERSION)
-    let parser = new SynchronyParser();
-    let ofx = parser.parseToOfx(document);
+
+    const spinner = new LoadingSpinner();
+    await spinner.show();
+
+    let ofx: string;
+    try {
+      let parser = new SynchronyParser();
+      ofx = parser.parseToOfx(document);
+    } finally {
+      await spinner.hide();
+    }
 
     var blob = new Blob([ofx], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "synchrony-credit-statement.ofx");
