@@ -13,7 +13,7 @@ export class Pa529CsvToOfxConverter {
     let config = Pa529CsvTransformer.convertCsvToOfxCreationDto(csv, createFake);
     let ofx = OfxSecurityGenerator.generateOfx(config);
     var blob = new Blob([ofx], { type: "text/plain;charset=utf-8" });
-    FileSaver.saveAs(blob, "statement.ofx");
+    FileSaver.saveAs(blob, "pa-529-statement.ofx");
   }
 
   private static createFakeTransactions(): boolean {

@@ -9,7 +9,7 @@ class Main {
     let ofx = parser.parseToOfx(document);
 
     var blob = new Blob([ofx], { type: "text/plain;charset=utf-8" });
-    FileSaver.saveAs(blob, "statement.ofx");
+    FileSaver.saveAs(blob, "synchrony-credit-statement.ofx");
   }
 
 }
