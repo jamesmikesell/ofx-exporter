@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="favicons/manifest.json"><link rel="icon" href="favicons/favicon.ico"><title>PA529 CSV to OFX Transaction Converter</title><style>body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #drop-area {
+      border: 2px dashed #ccc;
+      border-radius: 20px;
+      width: 300px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+      margin-bottom: 20px;
+    }
+
+    #checkbox-container {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #333;
+    }
+
+    #fake-transactions {
+      margin-left: 10px;
+    }</style><script defer="defer" src="main-pa529.js"></script></head><body><div id="drop-area">Drag & Drop a<br>PA 529 Transaction History<br>CSV file here</div><div id="checkbox-container"><input type="checkbox" id="fake-transactions" checked="true"> <label for="fake-transactions">Create one fake transaction per holding at current price</label></div></body></html>
