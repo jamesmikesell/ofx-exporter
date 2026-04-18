@@ -22,10 +22,8 @@ export class Pa529CsvTransformer {
     let holdings = this.getCsvHoldings(holdingsSectionOfCsv);
     let transactions = this.getTransactions(transactionsSectionOfCsv);
 
-    let accountNumbers = new Set<string>();
     let dtoTransactions: SecurityTransactionCreationDto[] = [];
     transactions.forEach(singleTran => {
-      accountNumbers.add(singleTran.accountNumber);
       dtoTransactions.push(this.createTransactions(singleTran));
     })
 
@@ -50,11 +48,12 @@ export class Pa529CsvTransformer {
     })
 
 
+    let accountNumbers = this.getAccountNumbers(holdings, transactions);
     if (accountNumbers.size !== 1)
       throw new Error("Incorrect number of accounts listed. 1 and only 1 account number must be listed.");
 
     let [accountNumber] = accountNumbers;
-    let startEndDates = this.getStartEndDates(transactions);
+    let startEndDates = this.getStartEndDates(dtoTransactions);
 
     let config: OfxSecurityCreationDto = {
       updateDateTime: new Date(),
@@ -115,7 +114,29 @@ export class Pa529CsvTransformer {
   }
 
 
-  private static getStartEndDates(transactions: Pa529Transaction[]): [Date, Date] {
+  private static getAccountNumbers(holdings: Pa529Holding[], transactions: Pa529Transaction[]): Set<string> {
+    let accountNumbers = new Set<string>();
+
+    holdings.forEach(single => {
+      if (single.accountNumber)
+        accountNumbers.add(single.accountNumber);
+    });
+
+    transactions.forEach(single => {
+      if (single.accountNumber)
+        accountNumbers.add(single.accountNumber);
+    });
+
+    return accountNumbers;
+  }
+
+
+  private static getStartEndDates(transactions: SecurityTransactionCreationDto[]): [Date, Date] {
+    if (transactions.length === 0) {
+      let today = new Date();
+      return [today, today];
+    }
+
     let start: Date;
     let end: Date;
     transactions.forEach(single => {
@@ -131,7 +152,13 @@ export class Pa529CsvTransformer {
 
 
   private static getTransactions(transactionsSectionOfCsv: string): Pa529Transaction[] {
+    if (!transactionsSectionOfCsv?.trim())
+      return [];
+
     let transactionsAndHeader: string[][] = parse(transactionsSectionOfCsv);
+    if (transactionsAndHeader.length === 0)
+      return [];
+
     this.checkTransactionColumnNames(transactionsAndHeader[0])
     let transactionsRows = transactionsAndHeader.slice(1) // remove first row which is just headers
     return this.convertCsvRowsToTransactions(transactionsRows);
